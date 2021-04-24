@@ -91,3 +91,51 @@
 -- FROM sql_store.products p
 -- CROSS JOIN sql_store.shippers s;
 
+-- 21) Using UNION, Get the customer type according to their points, Bronze if < 2000, Silver if 2000-3000, Gold if > 3000
+-- SELECT customer_id, first_name, points, 'Bronze' AS type
+-- FROM sql_store.customers
+-- WHERE points < 2000
+-- UNION
+-- SELECT customer_id, first_name, points, 'Silver'
+-- FROM sql_store.customers
+-- WHERE points BETWEEN 2000 AND 3000
+-- UNION
+-- SELECT customer_id, first_name, points, 'Gold' AS type
+-- FROM sql_store.customers
+-- WHERE points > 3000
+-- ORDER BY first_name;
+
+-- 22) Insert three rows in the products table
+-- INSERT INTO sql_store.products (name, quantity_in_stock, unit_price)
+-- VALUES ('Product1', 10, 2.50),
+-- ('Product2', 20, 2.00),
+-- ('Product3', 30, 3.75);
+
+-- 23) Insert into multiple tables, Inserting Hierarchical Rows 
+-- INSERT INTO sql_store.orders (customer_id, order_date, status)
+-- VALUES (3, '2021-04-24', 1);
+-- INSERT INTO sql_store.order_items (order_id, product_id, quantity, unit_price)
+-- VALUES (LAST_INSERT_ID(), 2, 10, 2.75), (LAST_INSERT_ID(), 3, 2, 3.56);
+
+-- 24) Create new table (invoice_archived) using client name , and insert rows that have payment_date
+-- CREATE TABLE invoice_archived AS
+-- SELECT invoice_id, number, name AS 'client_name', invoice_total, payment_total, invoice_date, due_date, payment_date 
+-- FROM sql_invoicing.invoices i
+-- JOIN sql_invoicing.clients c
+-- USING (client_id)
+-- WHERE payment_date IS NOT NULL;
+
+-- 25) Write a SQL Statement to give any customers born before 1990, extra 50 points
+-- UPDATE sql_store.customers
+-- SET points = points + 50
+-- WHERE birth_date < '1990-01-01;
+
+-- 26) Update the comments of the customers who have more than 3000 points into 'Gold customer'
+-- UPDATE sql_store.orders
+-- SET comments = 'Gold customer'
+-- WHERE customer_id IN 
+-- (SELECT customer_id FROM sql_store.customers
+-- WHERE points > 3000);
+
+
+
